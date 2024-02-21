@@ -1,11 +1,11 @@
 const express = require('express');
 const {
-    createUser
-} = require('../controllers/userController');
+    createTask
+} = require('../controllers/taskController');
 
 const router = express.Router();
 
 //create user
-router.post('/create/:id', createUser);
+router.post('/create/:id', createTask);
 
 module.exports = router;

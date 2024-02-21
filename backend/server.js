@@ -1,6 +1,9 @@
 const express = require('express')
 require('dotenv').config()
-const Taskroutes = require('./routes/rooms')
+const Roomroutes = require('./routes/rooms')
+const Userroutes = require('./routes/users')
+const Taskroutes = require('./routes/tasks')
+
 const mongoose = require('mongoose')
 //express app
 const app = express()
@@ -12,7 +15,9 @@ app.use(express.json())
 
 
 //routes
-app.use('/api/tasks', Taskroutes)
+app.use('/api/tasks', Roomroutes)
+app.use('/api/user', Userroutes)
+app.use('/api/rtasks', Taskroutes)
 
 //connect to mongoose
 mongoose.connect(process.env.MONGO_URI)

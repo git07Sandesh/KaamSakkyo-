@@ -16,6 +16,10 @@ const userSchema = new Schema({
     rooms: [{
         type: Schema.Types.ObjectId,
         ref: 'Room',
+    }],
+    tasks: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Task',
     }]
     // Include other user-specific fields here
 }, {

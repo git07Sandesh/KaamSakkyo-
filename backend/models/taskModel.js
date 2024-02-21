@@ -18,6 +18,11 @@ const taskSchema = new Schema({
         ref: 'User', // Reference to the User model
         required: false, // This can be false if you want tasks to not always be assigned
     },
+    room: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Room', // Reference to the Room model
+        required: false,
+    },
     points: {
         type: Number,
         required: false,
