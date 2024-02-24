@@ -24,7 +24,6 @@ const userSchema = new Schema({
     // Include other user-specific fields here
 }, {
     timestamps: true
-});
-
+    });
 const User = mongoose.model('User', userSchema);
 module.exports = User;
