@@ -51,12 +51,14 @@ export default function Center() {
   };
 
   return (
-    <div className='fixed w-full left-[12rem] flex flex-col h-full top-[6rem] z-0 bg-[#73E2A7]'>
+    <div className='fixed w-full left-[8rem] lg:left-[12rem] flex flex-col h-full top-[6rem] z-0 bg-[#73E2A7]'>
       <div className='flex m-3 p-2 font-extrabold'>My Groups</div>
       <div className='ml-4 p-3 flex flex-wrap'>
         {createdGroups.map((group) => (
           <div key={group._id} className='m-2 p-3 w-48 h-48 rounded-3xl bg-[#6ccff6]'>
-            {group.title}
+            <Link to = {`/${group.title}`}>
+              {group.title}
+            </Link>
             <div className='relative flex flex-row justify-end top-[7rem] gap-1'>
               <button>sum</button>
               <button>sort</button>

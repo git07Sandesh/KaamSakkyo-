@@ -4,7 +4,7 @@ import UserProfile from './Contents/UserProfile';
 
 export default function MainContent() {
   return (
-    <div className="fixed w-full left-[7rem] lg:left-[12rem] flex flex-row text-[#444444] justify-between h-[6rem] z-20 bg-[#def4c6]">
+    <div className="fixed w-full left-[8rem] lg:left-[12rem] flex flex-row text-[#444444] justify-between h-[6rem] z-20 bg-[#def4c6]">
       <header className="flex items-center justify-between w-full px-4 lg:px-6">
         <div className="flex items-center">
           <button className="p-2 hover:cursor-pointer hover:scale-150 transition duration-150 ease-in-out">

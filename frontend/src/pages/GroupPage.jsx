@@ -45,9 +45,9 @@ function GroupPage() {
   return (
     <div>
       <Sidenav />
-      <div className='fixed w-full max-w-[100%] left-[12rem] flex text-[#444444] h-[4rem] bg-[#def4c6]'>
+      <div className='fixed w-full max-w-[100%] left-[8rem] lg:left-[12rem] flex text-[#444444] h-[4rem] bg-[#def4c6]'>
       </div>
-      <div className='fixed w-full left-[12rem] flex flex-row h-full gap-4 top-[4rem] z-0 bg-[#9eeac2]'>
+      <div className='fixed w-full left-[8rem] lg:left-[12rem] flex flex-row h-full gap-4 top-[4rem] z-0 bg-[#9eeac2]'>
       </div>
 
       <div className='overflow-clip'>
