@@ -8,6 +8,7 @@ function GroupPage() {
   const [userName, setUserName] = useState('');
   const [roommateInputs, setRoommateInputs] = useState([]);
   const [taskInputs, setTaskInputs] = useState([]);
+  const [inviteModal, setInviteModal] = useState(false);
 
   const handleRoommatesSubmit = (e) => {
     e.preventDefault();
@@ -52,7 +53,7 @@ function GroupPage() {
 
       <div className='overflow-clip'>
         {showRoommatesModal && (
-          <Modal trigger={true} setTrigger={setShowRoommatesModal}>
+          <Modal trigger={true} setTrigger={setShowRoommatesModal} className="h-auto">
             <div className='relative top-[-16px] left-[6px]'>
               Enter Your Name
             </div>
@@ -111,32 +112,49 @@ function GroupPage() {
     
       {!showRoommatesModal && !showTasksModal && (
           <>
-            <div className='fixed w-full max-w-[100%] left-[12rem] flex text-[#444444] h-[4rem] bg-[#def4c6]'>
-              <div className='flex flex-row items-center w-[70%] justify-center'>
+            <div className='fixed w-screen left-[12rem] flex text-[#444444] justify-around h-[4rem]'>
+              <div className='flex items-center '>
                 Hi {userName}, welcome to your Group
               </div>
-              <div className='flex flex-row items-center '>
-                <button >
+              <div className='flex align-bottom'>
+                <button onClick = {() => setInviteModal(true)}>
                   Invite Friends
                 </button>
               </div>
             </div>
+            <Modal trigger = {inviteModal} setTrigger = {setInviteModal}>
+            <div className='relative flex flex-col items-center justify-between mt-10'>
+                <input
+                  className='w-48 h-8 p-5 m-4 rounded-3xl  text-lg font-semibold'
+                  type="email"
+                  placeholder="Enter the email id"
+                />
+                <button
+                  className='w-32 h-12 rounded-xl font-bold hover:cursor-pointer bg-[#6ccff6]'
+                >
+                  Invite
+                </button>
+              </div>    
+            </Modal>
 
-            <div className='fixed w-full items-center left-[12rem] flex flex-col gap-4 top-[4rem] align-middle z-0'>
+            <div className='fixed w-full items-center left-[8rem] lg:left-[12rem] flex flex-col gap-4 top-[4rem] align-middle z-0'>
                 <div className='flex w-full h-8 flex-row bg-[#a8acaa] justify-center '>
-                    <div className='w-[20%] '>Members</div>
-                    <div className='w-[80%]'>Assigned Task</div>
+                    <div className='w-[40%] ml-8 '>Members</div>
+                    <div className='w-[50%]'>Assigned Task</div>
+                    <div className='w-[30%]'>Due Date</div>
                 </div>
                 {[userName, ...roommateInputs].map((person, index) => (
                     <div key={index} className='flex w-full flex-row justify-center'>
-                        <div className='w-[20%] '>{person}</div>
-                        <div className='w-[80%]'>
+                        <div className='w-[40%] ml-8 '>{person}</div>
+                        <div className='w-[50%]'>
                             {taskInputs.slice(index * tasksPerMember, (index + 1) * tasksPerMember).map((task, taskIndex) => (
                                 <div key={taskIndex}>{task}</div>
                             ))}
                         </div>
+                        <div className='w-[30%]'>date</div>
                     </div>
                 ))}
+                
             </div>
             
           </>
