@@ -8,7 +8,7 @@ const {
 const router = express.Router();
 
 //create user
-router.post('/create/:name', createUser);
+router.post('/create/:name1', createUser);
 
 //get user from one room
 router.get('/:name', getUsers);
