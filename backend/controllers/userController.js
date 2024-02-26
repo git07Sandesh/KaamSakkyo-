@@ -5,9 +5,10 @@ const mongoose = require('mongoose');
 
 //create User
 const createUser = async (req, res) => {
-    const { id } = req.params
+    const { name1 } = req.params
     const { name, email } = req.body;
-    const room = await Room.findById(id);
+    const room = await Room.findOne({ title: name1 });
+    const roomId = room._id;
     if (!room) {
         return res.status(404).json({ error: 'Room not found' });
     }
@@ -22,7 +23,7 @@ const createUser = async (req, res) => {
         const user = await User.create({
             name,
             email,
-            rooms: [id] // Add the room ID to the user's rooms array
+            rooms: [roomId] // Add the room ID to the user's rooms array
         });
 
         await Room.findByIdAndUpdate(
@@ -36,8 +37,24 @@ const createUser = async (req, res) => {
     }
 };
 
+const getUsers = async (req, res) => {
+    const { name } = req.params;
+    try {
+        const room = await Room.findOne({ title: name })
+        if (!room) {
+            return res.status(404).json({ error: 'Room not found' });
+        }
+        const users = await User.find({ '_id': { $in: room.users } });
+        return res.status(200).json(users);
+    }
+    catch (error) {
+        res.status(400).json({ error: error.message });
+    }
+
+};
 
 
 module.exports = {
-    createUser
+    createUser,
+    getUsers
 }
