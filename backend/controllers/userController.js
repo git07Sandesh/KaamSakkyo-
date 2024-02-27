@@ -45,23 +45,22 @@ const createUser = async (req, res) => {
 const getUsers = async (req, res) => {
     const { name } = req.params;
     try {
-        const room = await Room.findOne({ title: name })
+        const room = await Room.findOne({ title: name }).populate('users', 'name'); // Assuming 'users' is a field in Room that references User documents
         if (!room) {
             return res.status(404).json({ error: 'Room not found' });
         }
         if (room.users && room.users.length > 0) {
-            return res.status(200).json(room.users);
+            // Now, room.users should have user documents populated with only the 'name' field
+            const userNames = room.users.map(user => user.name); // Extract the name of each user
+            return res.status(200).json(userNames); // Send back an array of user names
         } else {
             // Room has no users
             return res.status(404).json({ error: 'No users found in this room' });
         }
-    }
-    catch (error) {
+    } catch (error) {
         res.status(400).json({ error: error.message });
     }
-
 };
-
 
 module.exports = {
     createUser,
