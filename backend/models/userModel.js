@@ -10,8 +10,7 @@ const userSchema = new Schema({
     email: {
         type: String,
         required: false,
-        unique: true,
-
+        unique: false,
     },
     rooms: [{
         type: Schema.Types.ObjectId,

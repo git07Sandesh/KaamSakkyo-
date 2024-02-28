@@ -8,7 +8,8 @@ export default function Center() {
   const [isCreatingGroup, setCreatingGroup] = useState(false);
   const [groupName, setGroupName] = useState('');
   const [createdGroups, setCreatedGroups] = useState([]);
-
+  // eslint-disable-next-line
+  const [error, setError] = useState(null);
   const [buttonPopup, setButtonPopup] = useState(false);
 
   useEffect(() => {
@@ -40,10 +41,28 @@ export default function Center() {
   // Attempting to fetch existing groups
 
 
-  const handleCreateButtonClick = () => {
+  const handleCreateButtonClick = async (e) => {
+    e.preventDefault();
     if (groupName.trim() !== '') {
       console.log('Creating group with name:', groupName);
       setCreatedGroups([...createdGroups, { _id: Date.now().toString(), title: groupName }]); // Assuming a mock _id for demonstration
+      const title = groupName;
+      const newRoom = { title };
+      const response = await fetch('/api/tasks/', {
+        method: 'POST',
+        body: JSON.stringify(newRoom),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+      const json = await response.json();
+      if (!response.ok) {
+        setError(json.error)
+      }
+      if (response.ok) {
+        setError(null)
+        console.log('new Room created successfully')
+      }
       setButtonPopup(false);
       setCreatingGroup(false);
       setGroupName('');
@@ -56,7 +75,7 @@ export default function Center() {
       <div className='ml-4 p-3 flex flex-wrap'>
         {createdGroups.map((group) => (
           <div key={group._id} className='m-2 p-3 w-48 h-48 rounded-3xl bg-[#6ccff6]'>
-            <Link to = {`/${group.title}`}>
+            <Link to={`/${group.title}`}>
               {group.title}
             </Link>
             <div className='relative flex flex-row justify-end top-[7rem] gap-1'>

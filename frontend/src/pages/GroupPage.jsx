@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import Sidenav from '../components/Sidenav';
 import Modal from '../components/Modal';
+import Sidenav from '../components/Sidenav';
 
 function GroupPage() {
   const [showRoommatesModal, setShowRoommatesModal] = useState(true);
@@ -109,7 +109,7 @@ function GroupPage() {
           </Modal>
         )}
       </div>
-    
+
       {!showRoommatesModal && !showTasksModal && (
           <>
             <div className='fixed w-screen left-[12rem] flex text-[#444444] justify-around h-[4rem]'>

@@ -5,39 +5,64 @@ const mongoose = require('mongoose');
 
 //create User
 const createUser = async (req, res) => {
-    const { id } = req.params
+    const { name1 } = req.params;
     const { name, email } = req.body;
-    const room = await Room.findById(id);
-    if (!room) {
-        return res.status(404).json({ error: 'Room not found' });
-    }
-    if (email) {
-        const existingUser = await User.findOne({ email: email });
-        if (existingUser) {
-            // If user exists, return an error
-            return res.status(400).json({ error: 'Email already exists' });
-        }
-    }
+
     try {
+        const room = await Room.findOne({ title: name1 });
+        if (!room) {
+            return res.status(404).json({ error: 'Room not found' });
+        }
+
+        const roomId = room._id; // Move this inside the check after ensuring room is not null
+
+        if (email) {
+            const existingUser = await User.findOne({ email: email });
+            if (existingUser) {
+                // If user exists, return an error
+                return res.status(400).json({ error: 'Email already exists' });
+            }
+        }
+
         const user = await User.create({
             name,
             email,
-            rooms: [id] // Add the room ID to the user's rooms array
+            rooms: [roomId] // Add the room ID to the user's rooms array
         });
 
         await Room.findByIdAndUpdate(
-            id,
-            { $push: { users: user._id } }
+            roomId, // This should be roomId, not _id which is not defined in this context
+            { $push: { users: user._id } },
+            { new: true, useFindAndModify: false } // Optional: these options ensure updated document is returned and use the newer update method
         );
+
         res.status(200).json(user);
-    }
-    catch (error) {
+    } catch (error) {
         res.status(400).json({ error: error.message });
     }
 };
 
-
+const getUsers = async (req, res) => {
+    const { name } = req.params;
+    try {
+        const room = await Room.findOne({ title: name }).populate('users', 'name'); // Assuming 'users' is a field in Room that references User documents
+        if (!room) {
+            return res.status(404).json({ error: 'Room not found' });
+        }
+        if (room.users && room.users.length > 0) {
+            // Now, room.users should have user documents populated with only the 'name' field
+            const userNames = room.users.map(user => user.name); // Extract the name of each user
+            return res.status(200).json(userNames); // Send back an array of user names
+        } else {
+            // Room has no users
+            return res.status(404).json({ error: 'No users found in this room' });
+        }
+    } catch (error) {
+        res.status(400).json({ error: error.message });
+    }
+};
 
 module.exports = {
-    createUser
+    createUser,
+    getUsers
 }
