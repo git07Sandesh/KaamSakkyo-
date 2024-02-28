@@ -3,8 +3,9 @@ const Room = require('../models/roomModel');
 const mongoose = require('mongoose');
 //get all rooms
 const getRooms = async (req, res) => {
-    const rooms = await Room.find({}).sort({ createdAt: -1 }).
-        res.status(200).json(rooms);
+    const rooms = await Room.find({}).sort({ createdAt: -1 });
+    res.status(200).json(rooms);
+
 }
 
 //get one room

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import Sidenav from '../components/Sidenav';
 import Modal from '../components/Modal';
+import Sidenav from '../components/Sidenav';
 
 function GroupPage() {
   const [showRoommatesModal, setShowRoommatesModal] = useState(true);
@@ -108,39 +108,39 @@ function GroupPage() {
           </Modal>
         )}
       </div>
-    
-      {!showRoommatesModal && !showTasksModal && (
-          <>
-            <div className='fixed w-full max-w-[100%] left-[12rem] flex text-[#444444] h-[4rem] bg-[#def4c6]'>
-              <div className='flex flex-row items-center w-[70%] justify-center'>
-                Hi {userName}, welcome to your Group
-              </div>
-              <div className='flex flex-row items-center '>
-                <button >
-                  Invite Friends
-                </button>
-              </div>
-            </div>
 
-            <div className='fixed w-full items-center left-[12rem] flex flex-col gap-4 top-[4rem] align-middle z-0'>
-                <div className='flex w-full h-8 flex-row bg-[#a8acaa] justify-center '>
-                    <div className='w-[20%] '>Members</div>
-                    <div className='w-[80%]'>Assigned Task</div>
-                </div>
-                {[userName, ...roommateInputs].map((person, index) => (
-                    <div key={index} className='flex w-full flex-row justify-center'>
-                        <div className='w-[20%] '>{person}</div>
-                        <div className='w-[80%]'>
-                            {taskInputs.slice(index * tasksPerMember, (index + 1) * tasksPerMember).map((task, taskIndex) => (
-                                <div key={taskIndex}>{task}</div>
-                            ))}
-                        </div>
-                    </div>
-                ))}
+      {!showRoommatesModal && !showTasksModal && (
+        <>
+          <div className='fixed w-full max-w-[100%] left-[12rem] flex text-[#444444] h-[4rem] bg-[#def4c6]'>
+            <div className='flex flex-row items-center w-[70%] justify-center'>
+              Hi {userName}, welcome to your Group
             </div>
-            
-          </>
-        )}
+            <div className='flex flex-row items-center '>
+              <button >
+                Invite Friends
+              </button>
+            </div>
+          </div>
+
+          <div className='fixed w-full items-center left-[12rem] flex flex-col gap-4 top-[4rem] align-middle z-0'>
+            <div className='flex w-full h-8 flex-row bg-[#a8acaa] justify-center '>
+              <div className='w-[20%] '>Members</div>
+              <div className='w-[80%]'>Assigned Task</div>
+            </div>
+            {[userName, ...roommateInputs].map((person, index) => (
+              <div key={index} className='flex w-full flex-row justify-center'>
+                <div className='w-[20%] '>{person}</div>
+                <div className='w-[80%]'>
+                  {taskInputs.slice(index * tasksPerMember, (index + 1) * tasksPerMember).map((task, taskIndex) => (
+                    <div key={taskIndex}>{task}</div>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+
+        </>
+      )}
     </div>
   );
 }

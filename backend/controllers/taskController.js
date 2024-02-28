@@ -4,11 +4,12 @@ const Room = require('../models/roomModel');
 const Task = require('../models/taskModel');
 const mongoose = require('mongoose');
 
-//create User
+//create Task
 const createTask = async (req, res) => {
-    const { id } = req.params
+    const { name } = req.params
     const { description, completed, assignedTo, points } = req.body;
-    const dbroom = await Room.findById(id);
+    const dbroom = await Room.findOne({ title: name });
+    const dbroomid = dbroom._id;
     if (!dbroom) {
         return res.status(404).json({ error: 'Room not found' });
     }
@@ -22,12 +23,12 @@ const createTask = async (req, res) => {
             description,
             completed,
             assignedTo,
-            room: id,
+            room: dbroomid,
             points,
         });
 
         await Room.findByIdAndUpdate(
-            id,
+            dbroomid,
             { $push: { tasks: task._id } }
         );
 
@@ -43,8 +44,29 @@ const createTask = async (req, res) => {
     }
 };
 
+const getTasks = async (req, res) => {
+    const { name } = req.params;
+    try {
+        const room = await Room.findOne({ title: name }).populate('tasks', 'description'); // Assuming 'users' is a field in Room that references User documents
+        if (!room) {
+            return res.status(404).json({ error: 'Room not found' });
+        }
+        if (room.tasks && room.tasks.length > 0) {
+            // Now, room.users should have user documents populated with only the 'name' field
+            const taskNames = room.tasks.map(tasks => tasks.description); // Extract the name of each user
+            return res.status(200).json(taskNames); // Send back an array of user names
+        } else {
+            // Room has no users
+            return res.status(404).json({ error: 'No tasks found in this room' });
+        }
+    } catch (error) {
+        res.status(400).json({ error: error.message });
+    }
+};
+
 
 
 module.exports = {
-    createTask
+    createTask,
+    getTasks
 }
